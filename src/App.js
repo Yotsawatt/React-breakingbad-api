@@ -1,26 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React , {useEffect , useState} from 'react'
+import Header from './component/ui/Header'
+import CharactorGrid from './component/charactor/charactorGrid'
+import './App.css'
+import Axios from 'axios'
 
-function App() {
+export default function App() {
+
+  const [item, setItem] = useState([])
+
+  useEffect(() => {
+    
+    const fetchItem = async () => {
+      const result = await Axios.get(`https://www.breakingbadapi.com/api/characters`)
+      // console.log(result.data)
+      setItem(result.data)
+    }
+
+    fetchItem()
+    
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <Header />
+      <CharactorGrid item={item} />
     </div>
-  );
+  )
 }
-
-export default App;
